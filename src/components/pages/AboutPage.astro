@@ -1,0 +1,98 @@
+---
+import PageHero from '../PageHero.astro';
+import SectionHeading from '../SectionHeading.astro';
+import ClientMarquee from '../ClientMarquee.astro';
+import Icon from '../Icon.astro';
+import CtaBand from '../CtaBand.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getValues, heroStats, certs } from '../../data/content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const values = getValues(lang);
+---
+<PageHero eyebrow={t('nav.about')} title={t('about.title')} sub={t('tag.brand')} image="/images/about.jpg" />
+
+<section class="section container-x about-lead">
+  <p class="about-lead__text reveal">{t('about.lead')}</p>
+  <dl class="about-stats reveal" style="--reveal-delay:120ms">
+    {heroStats.map((s) => (
+      <div class="about-stat">
+        <dt><span data-counter={s.value} data-suffix={s.suffix}>0{s.suffix}</span></dt>
+        <dd>{t(s.key as any)}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<section class="section container-x mv">
+  <article class="mv__card surface-card reveal">
+    <span class="mv__icon"><Icon name="target" size={24} /></span>
+    <h3>{t('about.missionTitle')}</h3>
+    <p>{t('about.mission')}</p>
+  </article>
+  <article class="mv__card surface-card reveal" style="--reveal-delay:120ms">
+    <span class="mv__icon"><Icon name="eye" size={24} /></span>
+    <h3>{t('about.visionTitle')}</h3>
+    <p>{t('about.vision')}</p>
+  </article>
+</section>
+
+<section class="section container-x">
+  <SectionHeading title={t('about.valuesTitle')} align="center" />
+  <div class="values mt">
+    {values.map((v, i) => (
+      <article class="values__card glass lift reveal" style={`--reveal-delay:${(i % 4) * 90}ms`}>
+        <span class="values__icon"><Icon name={v.icon} size={24} /></span>
+        <h4>{v.title}</h4>
+        <p>{v.desc}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section class="section container-x">
+  <SectionHeading eyebrow={t('section.certs.eyebrow')} title={t('section.certs.title')} sub={t('section.certs.sub')} />
+  <div class="certs mt reveal">
+    {certs.map((c) => <span class="chip">{c}</span>)}
+  </div>
+</section>
+
+<section class="section container-x">
+  <ClientMarquee label={t('section.clients.title')} />
+</section>
+
+<CtaBand />
+
+<style>
+  .section { padding-block: 3rem; }
+  .mt { margin-top: 2.5rem; }
+
+  .about-lead { display: grid; gap: 2.5rem; }
+  .about-lead__text { font-size: clamp(1.2rem, 1rem + 1.2vw, 1.6rem); color: var(--color-fg); line-height: 1.5; max-width: 70ch; }
+  .about-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; padding-top: 2rem; border-top: 1px solid var(--color-line); }
+  .about-stat dt { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.8rem, 1rem + 2.5vw, 2.6rem); color: var(--color-primary-bright); }
+  .about-stat dd { color: var(--color-fg-muted); font-size: 0.88rem; margin-top: 0.25rem; }
+
+  .mv { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+  .mv__card { padding: 2rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .mv__icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 8px; color: var(--color-primary-bright); background: rgba(10, 145, 210,0.1); border: 1px solid rgba(10, 145, 210,0.22); }
+  .mv__card h3 { font-size: 1.4rem; }
+  .mv__card p { color: var(--color-fg-soft); }
+
+  .values { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  .values__card { border-radius: var(--radius-lg); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .values__icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 7px; color: var(--color-violet); background: rgba(24, 200, 230,0.12); border: 1px solid rgba(24, 200, 230,0.25); }
+  .values__card h4 { font-size: 1.15rem; }
+  .values__card p { color: var(--color-fg-soft); font-size: 0.92rem; }
+
+  .certs { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
+
+  @media (min-width: 720px) {
+    .about-lead { grid-template-columns: 1.5fr 1fr; align-items: center; }
+    .about-stats { grid-template-columns: repeat(2, 1fr); border-top: none; padding-top: 0; }
+    .mv { grid-template-columns: 1fr 1fr; }
+    .values { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 1024px) { .values { grid-template-columns: repeat(4, 1fr); } }
+</style>

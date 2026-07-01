@@ -1,0 +1,55 @@
+---
+import Icon from './Icon.astro';
+import { getLangFromUrl, useTranslations, localePath } from '../i18n/utils';
+import { getFeatureTrio } from '../data/content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const items = getFeatureTrio(lang);
+---
+<section class="trio container-x">
+  <div class="trio__grid">
+    {items.map((it, i) => (
+      <article
+        class:list={['trio__card lift reveal', it.highlight ? 'trio__card--hl' : 'surface-card']}
+        style={`--reveal-delay:${i * 110}ms`}
+      >
+        <span class="trio__icon"><Icon name={it.icon} size={26} /></span>
+        <h3 class="trio__title">{it.title}</h3>
+        <p class="trio__desc">{it.desc}</p>
+        <a href={localePath('/services', lang)} class:list={['trio__link', it.highlight && 'trio__link--hl']}>
+          {t('cta.learnMore')} <Icon name="arrow-right" size={16} />
+        </a>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .trio { margin-top: 2.5rem; position: relative; z-index: 5; }
+  .trio__grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+  .trio__card { border-radius: var(--radius-lg); padding: 2rem 1.75rem; display: flex; flex-direction: column; gap: 0.85rem; align-items: flex-start; }
+  .trio__card--hl {
+    background: linear-gradient(160deg, #135d92 0%, #0b3a63 100%);
+    border: 1px solid rgba(63, 185, 240, 0.35);
+    box-shadow: 0 30px 70px -28px rgba(10, 145, 210, 0.6);
+  }
+
+  .trio__icon {
+    display: grid; place-items: center;
+    width: 56px; height: 56px;
+    border-radius: 9px;
+    color: var(--color-primary-bright);
+    background: rgba(10, 145, 210, 0.12);
+    border: 1px solid rgba(10, 145, 210, 0.25);
+  }
+  .trio__card--hl .trio__icon { background: rgba(63, 185, 240, 0.16); border-color: rgba(63, 185, 240, 0.3); }
+
+  .trio__title { font-size: 1.3rem; }
+  .trio__desc { color: var(--color-fg-soft); font-size: 0.95rem; }
+
+  .trio__link { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; font-size: 0.9rem; color: var(--color-primary-bright); margin-top: auto; transition: gap 0.25s ease; }
+  .trio__link:hover { gap: 0.7rem; }
+
+  @media (min-width: 768px) { .trio__grid { grid-template-columns: repeat(3, 1fr); align-items: stretch; } }
+</style>

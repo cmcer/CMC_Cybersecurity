@@ -1,0 +1,55 @@
+---
+import { getLangFromUrl } from '../i18n/utils';
+import { getProcess } from '../data/content';
+const lang = getLangFromUrl(Astro.url);
+const steps = getProcess(lang);
+---
+<div class="process">
+  {steps.map((s, i) => (
+    <article class="process__step reveal" style={`--reveal-delay:${i * 90}ms`}>
+      <div class="process__no">{s.no}</div>
+      <h3 class="process__title">{s.title}</h3>
+      <p class="process__desc">{s.desc}</p>
+      {i < steps.length - 1 && <span class="process__connector" aria-hidden="true"></span>}
+    </article>
+  ))}
+</div>
+
+<style>
+  .process {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .process__step {
+    position: relative;
+    padding: 1.6rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-line);
+    background: linear-gradient(165deg, var(--color-surface), var(--color-bg-soft));
+  }
+  .process__no {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(120deg, var(--color-primary-bright), var(--color-violet));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin-bottom: 0.75rem;
+  }
+  .process__title { font-size: 1.18rem; margin-bottom: 0.4rem; }
+  .process__desc { color: var(--color-fg-soft); font-size: 0.93rem; }
+  .process__connector { display: none; }
+
+  @media (min-width: 640px) { .process { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) {
+    .process { grid-template-columns: repeat(4, 1fr); }
+    .process__connector {
+      display: block;
+      position: absolute;
+      top: 2.6rem; right: -0.9rem;
+      width: 1.8rem; height: 1px;
+      background: linear-gradient(90deg, var(--color-primary), transparent);
+    }
+  }
+</style>

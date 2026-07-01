@@ -1,0 +1,51 @@
+# ============================================================
+# CMC Cyber Security — Apache config cho Hostinger (static site)
+# File nay nam trong public/ va se duoc copy vao dist/ khi build,
+# sau do upload toan bo dist/ vao public_html tren Hostinger.
+# ============================================================
+
+# --- Bat nen Gzip ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml application/xml
+</IfModule>
+
+# --- Cache tinh (assets co hash) ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 6 months"
+  ExpiresByType image/webp "access plus 6 months"
+  ExpiresByType image/png "access plus 6 months"
+  ExpiresByType image/jpeg "access plus 6 months"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# --- Trang 404 tuy chinh ---
+ErrorDocument 404 /404.html
+
+# --- Bo duoi .html va xu ly URL sach (vd /services) ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Neu da co HTTPS thi bo qua (Hostinger tu cap SSL). Bo comment 2 dong duoi de ep HTTPS:
+  # RewriteCond %{HTTPS} off
+  # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # /services -> /services/index.html (neu thu muc ton tai)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.*?)/?$ /$1/index.html [L]
+
+  # /services.html truy cap truc tiep -> chuyen ve /services
+  RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+</IfModule>
+
+# --- Bao mat header co ban ---
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

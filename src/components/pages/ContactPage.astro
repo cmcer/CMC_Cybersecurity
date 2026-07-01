@@ -1,0 +1,54 @@
+---
+import PageHero from '../PageHero.astro';
+import ContactForm from '../ContactForm.astro';
+import Icon from '../Icon.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getOffices, contactInfo } from '../../data/content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const offices = getOffices(lang);
+---
+<PageHero eyebrow={t('nav.contact')} title={t('contact.title')} sub={t('contact.sub')} />
+
+<section class="section container-x contact">
+  <div class="contact__form">
+    <ContactForm />
+  </div>
+
+  <aside class="contact__aside">
+    <div class="contact__block glass reveal">
+      <h3 class="contact__block-title"><Icon name="phone" size={18} /> {t('contact.hotline')}</h3>
+      <a class="contact__big" href={`tel:${contactInfo.hotline.replace(/\s/g, '')}`}>{contactInfo.hotline}</a>
+      <p class="contact__muted">{contactInfo.phone}</p>
+      <div class="contact__links">
+        <a href={`mailto:${contactInfo.email}`}><Icon name="mail" size={16} /> {contactInfo.email}</a>
+        <a href={`mailto:${contactInfo.support}`}><Icon name="lock" size={16} /> {contactInfo.support}</a>
+      </div>
+    </div>
+
+    {offices.map((o, i) => (
+      <div class="contact__block surface-card reveal" style={`--reveal-delay:${(i + 1) * 90}ms`}>
+        <h3 class="contact__block-title"><Icon name="map-pin" size={18} /> {o.city}</h3>
+        <p class="contact__muted">{o.address}</p>
+      </div>
+    ))}
+  </aside>
+</section>
+
+<style>
+  .section { padding-block: 3rem; }
+  .contact { display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: start; }
+  .contact__aside { display: flex; flex-direction: column; gap: 1.25rem; }
+  .contact__block { border-radius: var(--radius-lg); padding: 1.5rem; }
+  .contact__block-title { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; font-family: var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-fg-muted); margin-bottom: 0.75rem; }
+  .contact__block-title :global(svg) { color: var(--color-primary); }
+  .contact__big { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; color: var(--color-primary-bright); }
+  .contact__muted { color: var(--color-fg-soft); font-size: 0.92rem; margin-top: 0.3rem; }
+  .contact__links { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-line); }
+  .contact__links a { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--color-fg-soft); font-size: 0.9rem; transition: color 0.2s ease; }
+  .contact__links a:hover { color: var(--color-primary); }
+  .contact__links :global(svg) { color: var(--color-primary); }
+
+  @media (min-width: 980px) { .contact { grid-template-columns: 1.5fr 1fr; gap: 2rem; } }
+</style>

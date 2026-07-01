@@ -1,0 +1,97 @@
+---
+import Icon from './Icon.astro';
+import { getLangFromUrl, useTranslations, withBase } from '../i18n/utils';
+import { getDeviceChecklist } from '../data/content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const items = getDeviceChecklist(lang);
+---
+<section class="devices container-x">
+  <div class="devices__media reveal">
+    <span class="devices__grid grid-overlay" aria-hidden="true"></span>
+    <img
+      src={withBase('/images/why-figure.png')}
+      alt={lang === 'vi' ? 'Chuyên gia an ninh mạng CMC giám sát hệ thống' : 'CMC cybersecurity expert monitoring systems'}
+      class="devices__photo"
+      width="600"
+      height="1160"
+      loading="lazy"
+      decoding="async"
+    />
+    <div class="devices__badge brand-surface">
+      <strong><span data-counter="15" data-suffix="+">0+</span></strong>
+      <span>{t('section.devices.badge')}</span>
+    </div>
+  </div>
+
+  <div class="devices__content">
+    <span class="eyebrow reveal">{t('section.devices.eyebrow')}</span>
+    <h2 class="devices__title reveal" style="--reveal-delay:80ms">{t('section.devices.title')}</h2>
+    <p class="devices__sub reveal" style="--reveal-delay:140ms">{t('section.devices.sub')}</p>
+    <ul class="devices__list">
+      {items.map((it, i) => (
+        <li class="devices__item reveal" style={`--reveal-delay:${200 + i * 90}ms`}>
+          <span class="devices__item-icon"><Icon name={it.icon} size={20} /></span>
+          <div>
+            <h3>{it.title}</h3>
+            <p>{it.desc}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .devices { display: grid; grid-template-columns: 1fr; gap: 2.5rem; padding-block: 4rem; align-items: center; }
+
+  .devices__media {
+    position: relative;
+    border-radius: var(--radius-xl);
+    height: 420px;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 120% at 30% 20%, rgba(10, 145, 210, 0.22), transparent 60%),
+      linear-gradient(160deg, var(--color-surface-2), var(--color-bg-soft));
+    border: 1px solid var(--color-line);
+  }
+  .devices__grid { position: absolute; inset: 0; opacity: 0.6; z-index: 1; }
+  .devices__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; z-index: 0; }
+  .devices__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(5, 19, 34, 0.55)); z-index: 1; }
+  .devices__viz { position: relative; display: grid; place-items: center; color: var(--color-primary-bright); }
+  .devices__icon { filter: drop-shadow(0 0 30px rgba(10, 145, 210, 0.5)); position: relative; z-index: 2; }
+  .devices__pulse {
+    position: absolute; width: 120px; height: 120px; border-radius: 50%;
+    border: 1px solid rgba(10, 145, 210, 0.4);
+    animation: ring 3.2s ease-out infinite;
+  }
+  .devices__pulse--2 { animation-delay: 1.6s; }
+  @keyframes ring { 0% { transform: scale(0.6); opacity: 0.8; } 100% { transform: scale(2.1); opacity: 0; } }
+
+  .devices__badge {
+    position: absolute; top: 1.25rem; right: 1.25rem; z-index: 2;
+    display: flex; flex-direction: column;
+    padding: 0.85rem 1.1rem; border-radius: 9px;
+    box-shadow: 0 16px 40px -16px rgba(10, 145, 210, 0.6);
+  }
+  .devices__badge strong { font-size: 1.7rem; font-weight: 800; line-height: 1; }
+  .devices__badge span { font-size: 0.74rem; font-weight: 600; }
+
+  .devices__title { font-size: clamp(1.7rem, 1rem + 2.6vw, 2.5rem); margin: 0.9rem 0; }
+  .devices__sub { color: var(--color-fg-soft); font-size: 1.05rem; }
+  .devices__list { list-style: none; display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2rem; }
+  .devices__item { display: flex; gap: 1rem; }
+  .devices__item-icon {
+    flex: none; display: grid; place-items: center;
+    width: 44px; height: 44px; border-radius: 7px;
+    color: var(--color-primary-bright);
+    background: rgba(10, 145, 210, 0.1);
+    border: 1px solid rgba(10, 145, 210, 0.22);
+  }
+  .devices__item h3 { font-size: 1.08rem; margin-bottom: 0.2rem; }
+  .devices__item p { color: var(--color-fg-soft); font-size: 0.92rem; }
+
+  @media (prefers-reduced-motion: reduce) { .devices__pulse { animation: none; opacity: 0.3; } }
+  @media (min-width: 900px) { .devices { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+</style>

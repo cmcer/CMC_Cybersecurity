@@ -1,0 +1,37 @@
+---
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+import { getLangFromUrl, useTranslations, localePath } from '../i18n/utils';
+import { getSupportCards } from '../data/content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const cards = getSupportCards(lang);
+---
+<section class="section container-x">
+  <SectionHeading title={t('section.support.title')} sub={t('section.support.sub')} />
+  <div class="sup-grid">
+    {cards.map((c, i) => (
+      <article class="sup-card surface-card lift reveal" style={`--reveal-delay:${(i % 3) * 100}ms`}>
+        <span class="sup-card__icon"><Icon name={c.icon} size={26} /></span>
+        <h3 class="sup-card__title">{c.title}</h3>
+        <p class="sup-card__desc">{c.desc}</p>
+        <a href={localePath('/contact', lang)} class="btn btn-ghost sup-card__cta">{c.cta} <Icon name="arrow-right" size={16} /></a>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .section { padding-block: 3.5rem; }
+  .sup-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 2.75rem; }
+  .sup-card { padding: 2rem 1.75rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+  .sup-card__icon {
+    display: grid; place-items: center; width: 60px; height: 60px; border-radius: 9px;
+    color: var(--color-primary-bright); background: rgba(10, 145, 210, 0.1); border: 1px solid rgba(10, 145, 210, 0.22);
+  }
+  .sup-card__title { font-size: 1.2rem; }
+  .sup-card__desc { color: var(--color-fg-soft); font-size: 0.93rem; flex: 1; }
+  .sup-card__cta { margin-top: 0.5rem; }
+  @media (min-width: 760px) { .sup-grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

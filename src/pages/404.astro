@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { localePath } from '../i18n/utils';
+---
+<Layout title="404 — CMC Cyber Security">
+  <section class="nf container-x">
+    <span class="nf__glitch" aria-hidden="true">404</span>
+    <h1 class="nf__title">Trang không tồn tại / Page not found</h1>
+    <p class="nf__sub">
+      Liên kết có thể đã bị di chuyển hoặc không còn tồn tại.<br />
+      The link may have moved or no longer exists.
+    </p>
+    <div class="nf__actions">
+      <a href={localePath('/', 'vi')} class="btn btn-primary"><Icon name="arrow-right" size={18} /> Trang chủ</a>
+      <a href={localePath('/', 'en')} class="btn btn-ghost">English home</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .nf { min-height: 64vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 1rem; padding-block: 4rem; }
+  .nf__glitch {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(5rem, 3rem + 14vw, 11rem); line-height: 1;
+    background: linear-gradient(120deg, var(--color-primary-bright), var(--color-violet));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    text-shadow: 0 0 40px rgba(10, 145, 210, 0.3);
+  }
+  .nf__title { font-size: clamp(1.3rem, 1rem + 1.5vw, 2rem); }
+  .nf__sub { color: var(--color-fg-soft); }
+  .nf__actions { display: flex; flex-wrap: wrap; gap: 0.85rem; justify-content: center; margin-top: 1rem; }
+</style>

@@ -1,0 +1,9 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContactPage from '../../components/pages/ContactPage.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+<Layout title={`${t('contact.title')} — CMC Cyber Security`} description={t('contact.sub')}>
+  <ContactPage />
+</Layout>

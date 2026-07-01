@@ -1,0 +1,46 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import ServiceCard from './ServiceCard.astro';
+import Icon from './Icon.astro';
+import { getLangFromUrl, useTranslations, localePath } from '../i18n/utils';
+import { getServices } from '../data/content';
+
+interface Props { withHeading?: boolean; withCta?: boolean; }
+const { withHeading = true, withCta = false } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const services = getServices(lang);
+---
+<section class="section container-x">
+  {withHeading && (
+    <SectionHeading
+      eyebrow={t('section.services.eyebrow')}
+      title={t('section.services.title')}
+      sub={t('section.services.sub')}
+    />
+  )}
+  <div class="svc-grid">
+    {services.map((s, i) => (
+      <ServiceCard icon={s.icon} title={s.title} desc={s.desc} items={s.items} index={i} />
+    ))}
+  </div>
+  {withCta && (
+    <div class="section__cta reveal">
+      <a href={localePath('/contact', lang)} class="btn btn-accent">{t('cta.getQuote')} <Icon name="arrow-right" size={18} /></a>
+    </div>
+  )}
+</section>
+
+<style>
+  .section { padding-block: 3.5rem; }
+  .svc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+  .section__cta { display: flex; justify-content: center; margin-top: 2.5rem; }
+  @media (min-width: 640px) { .svc-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .svc-grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

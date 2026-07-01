@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# ⚠️ DEPLOY: nếu chuyển sang domain riêng ở thư mục gốc, đổi lại URL bên dưới
+Sitemap: https://megadinhai.github.io/cmc-cybersecurity/sitemap-index.xml

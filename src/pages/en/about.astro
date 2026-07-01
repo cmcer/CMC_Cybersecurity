@@ -1,0 +1,9 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AboutPage from '../../components/pages/AboutPage.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+<Layout title={`${t('about.title')} — CMC Cyber Security`} description={t('about.lead')}>
+  <AboutPage />
+</Layout>

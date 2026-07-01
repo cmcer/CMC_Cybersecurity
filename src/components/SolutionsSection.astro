@@ -1,0 +1,39 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import SolutionCard from './SolutionCard.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getSolutions } from '../data/content';
+
+interface Props { withHeading?: boolean; }
+const { withHeading = true } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const solutions = getSolutions(lang);
+---
+<section class="section container-x">
+  {withHeading && (
+    <SectionHeading
+      eyebrow={t('section.solutions.eyebrow')}
+      title={t('section.solutions.title')}
+      sub={t('section.solutions.sub')}
+    />
+  )}
+  <div class="sol-grid">
+    {solutions.map((s, i) => (
+      <SolutionCard icon={s.icon} code={s.code} title={s.title} desc={s.desc} index={i} />
+    ))}
+  </div>
+</section>
+
+<style>
+  .section { padding-block: 3.5rem; }
+  .sol-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+  @media (min-width: 640px) { .sol-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .sol-grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

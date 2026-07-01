@@ -1,0 +1,161 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CyberBackground from '../components/CyberBackground.astro';
+import { getLangFromUrl, alternatePath, withBase } from '../i18n/utils';
+import { ui } from '../i18n/ui';
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string; // current logical path without /en prefix, e.g. '/services'
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = ui[lang];
+const {
+  title = lang === 'vi'
+    ? 'CMC Cyber Security — An ninh của bạn, trách nhiệm của chúng tôi'
+    : 'CMC Cyber Security — Your Security, Our Responsibility',
+  description = t['hero.subtitle'],
+} = Astro.props;
+
+const enHref = new URL(alternatePath(Astro.url, 'en'), Astro.site).href;
+const viHref = new URL(alternatePath(Astro.url, 'vi'), Astro.site).href;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!doctype html>
+<html lang={lang === 'vi' ? 'vi' : 'en'}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="vi" href={viHref} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="x-default" href={viHref} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="CMC Cyber Security" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#051322" />
+
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <CyberBackground />
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <style>
+      .skip-link {
+        position: fixed;
+        top: -60px;
+        left: 16px;
+        z-index: 200;
+        background: var(--color-primary);
+        color: #04121a;
+        padding: 0.6rem 1rem;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: top 0.2s ease;
+      }
+      .skip-link:focus { top: 16px; }
+    </style>
+
+    <!-- Scroll reveal + header state + animated counters -->
+    <script>
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Reveal on scroll
+      const revealEls = document.querySelectorAll<HTMLElement>('.reveal');
+      if (prefersReduced) {
+        revealEls.forEach((el) => el.classList.add('is-visible'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                (entry.target as HTMLElement).classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+        );
+        revealEls.forEach((el) => io.observe(el));
+      }
+
+      // Header condensed state on scroll
+      const header = document.querySelector('[data-header]');
+      const onScroll = () => {
+        if (window.scrollY > 24) header?.classList.add('is-scrolled');
+        else header?.classList.remove('is-scrolled');
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      // Animated counters
+      const counters = document.querySelectorAll<HTMLElement>('[data-counter]');
+      const animateCount = (el: HTMLElement) => {
+        const target = Number(el.dataset.counter || '0');
+        const suffix = el.dataset.suffix || '';
+        if (prefersReduced) { el.textContent = `${target}${suffix}`; return; }
+        const dur = 1600;
+        const start = performance.now();
+        const step = (now: number) => {
+          const p = Math.min((now - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = `${Math.round(target * eased)}${suffix}`;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      };
+      const cio = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            animateCount(e.target as HTMLElement);
+            cio.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      counters.forEach((c) => cio.observe(c));
+
+      // Mobile menu toggle
+      const burger = document.querySelector('[data-burger]');
+      const mobileNav = document.querySelector('[data-mobile-nav]');
+      burger?.addEventListener('click', () => {
+        const open = mobileNav?.classList.toggle('is-open');
+        burger.setAttribute('aria-expanded', String(!!open));
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+      mobileNav?.querySelectorAll('a').forEach((a) =>
+        a.addEventListener('click', () => {
+          mobileNav.classList.remove('is-open');
+          burger?.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        })
+      );
+    </script>
+  </body>
+</html>

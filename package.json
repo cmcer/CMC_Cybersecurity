@@ -1,0 +1,21 @@
+{
+  "name": "cmc-cyber-security",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Website CMC Cyber Security - dark cyber modern, song ngu VI/EN, build bang Astro (static export).",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.2.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.6",
+    "tailwindcss": "^4.0.6"
+  }
+}
