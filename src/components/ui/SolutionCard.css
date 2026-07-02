@@ -1,0 +1,36 @@
+.sol-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+  overflow: hidden;
+}
+.sol-card__top { display: flex; align-items: center; justify-content: space-between; }
+.sol-card__icon {
+  display: grid; place-items: center;
+  width: 46px; height: 46px;
+  border-radius: 7px;
+  color: var(--color-primary-bright);
+  background: rgba(10, 145, 210, 0.1);
+  border: 1px solid rgba(10, 145, 210, 0.22);
+}
+.sol-card__code {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  color: var(--color-fg-muted);
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+}
+.sol-card__title { font-size: 1.16rem; }
+.sol-card__desc { color: var(--color-fg-soft); font-size: 0.94rem; }
+.sol-card__line {
+  position: absolute; left: 0; bottom: 0; height: 2px; width: 0;
+  background: linear-gradient(90deg, var(--color-primary), transparent);
+  transition: width 0.5s var(--ease-out-expo);
+}
+.sol-card:hover .sol-card__line { width: 100%; }

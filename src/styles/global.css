@@ -2,9 +2,14 @@
 
 /* ============================================================
    CMC CYBER SECURITY — DESIGN SYSTEM
-   Theme: deep navy + emerald/teal green accent (CMC DS aligned)
-   Reference layout: modern "shield" cybersecurity landing
+   Theme: deep navy + CMC sky-blue accent
    Typography: Inter (CMC Design System standard)
+
+   Đây là file style TOÀN CỤC — chỉ chứa design tokens (@theme),
+   reset cơ bản, và các class dùng chung nhiều nơi (.btn, .chip,
+   .container-x, .glass, .surface-card, animation...).
+   Style riêng của từng component nằm cạnh component đó (vd:
+   Hero.tsx đi cùng Hero.css) để Dev Front dễ tìm & sửa.
    ============================================================ */
 @theme {
   /* Surfaces — deep CMC navy-blue */
@@ -19,8 +24,8 @@
   --color-primary-bright: #3fb9f0;
   --color-primary-deep: #0077d1;
   --color-teal: #18c8e6;
-  --color-violet: #18c8e6; /* legacy alias -> cyan (kept for older components) */
-  --color-accent: #18c8e6; /* gradient partner / secondary CTA */
+  --color-violet: #18c8e6; /* alias -> cyan */
+  --color-accent: #18c8e6;
   --color-accent-bright: #56dcf3;
 
   /* Text */
@@ -56,11 +61,12 @@
 }
 
 /* ----------------------------- BASE ----------------------------- */
-* { border-color: var(--color-line); }
+* { border-color: var(--color-line); box-sizing: border-box; }
 
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
+  margin: 0;
   background-color: var(--color-bg);
   color: var(--color-fg);
   font-family: var(--font-sans);
@@ -71,7 +77,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Ambient backdrop — green/teal glow on navy */
+/* Ambient backdrop — sky-blue glow on navy */
 body::before {
   content: '';
   position: fixed;
@@ -89,7 +95,13 @@ h1, h2, h3, h4, h5 {
   font-weight: 700;
   line-height: 1.12;
   letter-spacing: -0.02em;
+  margin: 0;
 }
+p { margin: 0; }
+ul { margin: 0; padding: 0; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+img { max-width: 100%; display: block; }
 
 ::selection { background: rgba(10, 145, 210, 0.3); color: #fff; }
 
@@ -108,138 +120,134 @@ h1, h2, h3, h4, h5 {
   border-radius: 6px;
 }
 
-/* ----------------------------- UTILITIES ----------------------------- */
-@layer utilities {
-  .container-x {
-    width: 100%;
-    max-width: 1200px;
-    margin-inline: auto;
-    padding-inline: 1.25rem;
-  }
-  @media (min-width: 768px) { .container-x { padding-inline: 2rem; } }
+/* ----------------------------- SHARED LAYOUT UTILITIES ----------------------------- */
+.container-x {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) { .container-x { padding-inline: 2rem; } }
 
-  .text-gradient {
-    background: var(--grad-brand);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
+.section { padding-block: 3.5rem; }
 
-  .glow-text { text-shadow: 0 0 26px rgba(10, 145, 210, 0.4); }
-
-  .glass {
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
-    border: 1px solid var(--color-line);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-  }
-
-  .surface-card {
-    background: linear-gradient(165deg, var(--color-surface), var(--color-bg-soft));
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-lg);
-  }
-
-  /* Green->teal gradient surface (highlighted cards / CTA) */
-  .brand-surface {
-    background: var(--grad-brand);
-    color: #04243f;
-  }
-
-  .grid-overlay {
-    background-image:
-      linear-gradient(var(--color-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
-    background-size: 54px 54px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 35%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 35%, transparent 75%);
-  }
-
-  .hairline {
-    background-image: linear-gradient(90deg, transparent, var(--color-line-strong) 50%, transparent);
-    height: 1px;
-  }
-
-  .eyebrow {
-    font-family: var(--font-sans);
-    font-weight: 600;
-    font-size: 0.78rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-primary-bright);
-  }
+.text-gradient {
+  background: var(--grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-/* ----------------------------- COMPONENTS ----------------------------- */
-@layer components {
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.55rem;
-    font-weight: 600;
-    font-size: 0.95rem;
-    padding: 0.85rem 1.6rem;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: transform 0.25s var(--ease-spring), box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    will-change: transform;
-    min-height: 48px;
-    text-align: center;
-  }
-  .btn:active { transform: scale(0.97); }
+.glow-text { text-shadow: 0 0 26px rgba(10, 145, 210, 0.4); }
 
-  .btn-primary {
-    color: #04243f;
-    background: var(--grad-brand);
-    box-shadow: 0 10px 32px -10px rgba(10, 145, 210, 0.65);
-  }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 44px -10px rgba(10, 145, 210, 0.8);
-  }
+.glass {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  border: 1px solid var(--color-line);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
 
-  .btn-accent {
-    color: #04243f;
-    background: linear-gradient(120deg, var(--color-accent-bright), var(--color-teal));
-    box-shadow: 0 10px 32px -10px rgba(24, 200, 230, 0.6);
-  }
-  .btn-accent:hover { transform: translateY(-2px); box-shadow: 0 16px 44px -10px rgba(24, 200, 230, 0.78); }
+.surface-card {
+  background: linear-gradient(165deg, var(--color-surface), var(--color-bg-soft));
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+}
 
-  .btn-ghost {
-    color: var(--color-fg);
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--color-line-strong);
-  }
-  .btn-ghost:hover {
-    transform: translateY(-2px);
-    border-color: var(--color-primary);
-    color: var(--color-primary-bright);
-    background: rgba(10, 145, 210, 0.08);
-  }
+.brand-surface {
+  background: var(--grad-brand);
+  color: #04243f;
+}
 
-  /* On a green gradient surface */
-  .btn-on-brand {
-    color: #04243f;
-    background: #04243f;
-    color: #eaf6ff;
-  }
-  .btn-on-brand:hover { transform: translateY(-2px); background: #021726; }
+.grid-overlay {
+  background-image:
+    linear-gradient(var(--color-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 35%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 35%, transparent 75%);
+}
 
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 0.78rem;
-    letter-spacing: 0.01em;
-    padding: 0.4rem 0.85rem;
-    border-radius: 999px;
-    border: 1px solid var(--color-line-strong);
-    background: rgba(255, 255, 255, 0.03);
-    color: var(--color-fg-soft);
-  }
+.hairline {
+  background-image: linear-gradient(90deg, transparent, var(--color-line-strong) 50%, transparent);
+  height: 1px;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-primary-bright);
+}
+
+/* ----------------------------- SHARED COMPONENTS ----------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.25s var(--ease-spring), box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  will-change: transform;
+  min-height: 48px;
+  text-align: center;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  color: #04243f;
+  background: var(--grad-brand);
+  box-shadow: 0 10px 32px -10px rgba(10, 145, 210, 0.65);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 44px -10px rgba(10, 145, 210, 0.8);
+}
+
+.btn-accent {
+  color: #04243f;
+  background: linear-gradient(120deg, var(--color-accent-bright), var(--color-teal));
+  box-shadow: 0 10px 32px -10px rgba(24, 200, 230, 0.6);
+}
+.btn-accent:hover { transform: translateY(-2px); box-shadow: 0 16px 44px -10px rgba(24, 200, 230, 0.78); }
+
+.btn-ghost {
+  color: var(--color-fg);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--color-line-strong);
+}
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  color: var(--color-primary-bright);
+  background: rgba(10, 145, 210, 0.08);
+}
+
+.btn-on-brand {
+  color: #eaf6ff;
+  background: #04243f;
+}
+.btn-on-brand:hover { transform: translateY(-2px); background: #021726; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-line-strong);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-fg-soft);
 }
 
 /* ----------------------------- ANIMATIONS ----------------------------- */
@@ -256,6 +264,7 @@ h1, h2, h3, h4, h5 {
 .marquee-track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 
+/* Scroll reveal (driven by useScrollReveal hook, which toggles .is-visible) */
 .reveal {
   opacity: 0;
   transform: translateY(34px);

@@ -1,0 +1,21 @@
+.marquee-wrap { width: 100%; }
+.marquee-label {
+  text-align: center; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--color-fg-muted); margin-bottom: 1.5rem;
+}
+.marquee {
+  position: relative; overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee-item {
+  flex: none; display: grid; place-items: center;
+  height: 64px; padding: 0 1rem; margin: 0 0.75rem;
+}
+.marquee-item img {
+  height: 60px; width: auto; max-width: 160px; object-fit: contain;
+  background: #fff; border-radius: 7px; padding: 8px 14px;
+  filter: grayscale(0.2); opacity: 0.9;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.marquee-item img:hover { opacity: 1; transform: translateY(-3px); filter: none; }

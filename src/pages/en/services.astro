@@ -1,9 +1,0 @@
----
-import Layout from '../../layouts/Layout.astro';
-import ServicesPage from '../../components/pages/ServicesPage.astro';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-const t = useTranslations(getLangFromUrl(Astro.url));
----
-<Layout title={`${t('nav.services')} — CMC Cyber Security`} description={t('section.services.sub')}>
-  <ServicesPage />
-</Layout>

@@ -1,8 +1,11 @@
-import type { Lang } from '../i18n/ui';
+import type { Lang } from '../i18n/types';
 
 /**
  * Nội dung bám sát cmccybersecurity.com (biên tập ngắn gọn cho bản demo).
  * Tên dịch vụ/giải pháp, năng lực, giải thưởng, tin tức lấy từ trang gốc.
+ *
+ * Mỗi mục lưu cả 2 ngôn ngữ; các hàm getXxx(lang) ở cuối file trả về dữ liệu
+ * đã "chọn" đúng ngôn ngữ hiện tại để component chỉ cần gọi thẳng.
  */
 
 type L<T> = Record<Lang, T>;
@@ -498,8 +501,8 @@ const trustItems = [
 const testimonials = [
   {
     quote: {
-      vi: '“Đơn vị dẫn đầu Việt Nam cung cấp các dịch vụ trọn gói về an ninh, an toàn thông tin — Nhà cung cấp dịch vụ bảo mật Việt Nam xuất sắc của năm.”',
-      en: '“Vietnam’s leader in end-to-end information-security services — Information Security Service Provider of the Year.”',
+      vi: '"Đơn vị dẫn đầu Việt Nam cung cấp các dịch vụ trọn gói về an ninh, an toàn thông tin — Nhà cung cấp dịch vụ bảo mật Việt Nam xuất sắc của năm."',
+      en: '"Vietnam’s leader in end-to-end information-security services — Information Security Service Provider of the Year."',
     },
     name: 'Frost Sullivan',
     role: { vi: 'Đánh giá thị trường quốc tế', en: 'International market research' },
@@ -507,8 +510,8 @@ const testimonials = [
   },
   {
     quote: {
-      vi: '“Giải pháp CMDD đạt chứng chỉ quốc tế VB100 nhiều lần liên tiếp với điểm tuyệt đối.”',
-      en: '“The CMDD solution earned the international VB100 certification multiple times in a row with perfect scores.”',
+      vi: '"Giải pháp CMDD đạt chứng chỉ quốc tế VB100 nhiều lần liên tiếp với điểm tuyệt đối."',
+      en: '"The CMDD solution earned the international VB100 certification multiple times in a row with perfect scores."',
     },
     name: 'Virus Bulletin',
     role: { vi: 'Chứng nhận VB100', en: 'VB100 certification' },
@@ -516,8 +519,8 @@ const testimonials = [
   },
   {
     quote: {
-      vi: '“Top 5 doanh nghiệp Việt Nam về kiểm tra và đánh giá ATTT mạng 2024, cùng nhiều sản phẩm – dịch vụ ATTT tiêu biểu.”',
-      en: '“Top 5 Vietnamese firms for cybersecurity testing and assessment in 2024, with many outstanding security products and services.”',
+      vi: '"Top 5 doanh nghiệp Việt Nam về kiểm tra và đánh giá ATTT mạng 2024, cùng nhiều sản phẩm – dịch vụ ATTT tiêu biểu."',
+      en: '"Top 5 Vietnamese firms for cybersecurity testing and assessment in 2024, with many outstanding security products and services."',
     },
     name: 'VNISA',
     role: { vi: 'Hiệp hội An toàn thông tin Việt Nam', en: 'Vietnam Information Security Association' },

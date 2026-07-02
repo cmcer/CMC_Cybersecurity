@@ -1,0 +1,9 @@
+.svc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+.section__cta { display: flex; justify-content: center; margin-top: 2.5rem; }
+@media (min-width: 640px) { .svc-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .svc-grid { grid-template-columns: repeat(3, 1fr); } }

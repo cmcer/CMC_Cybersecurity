@@ -1,0 +1,38 @@
+.cform { border-radius: var(--radius-xl); padding: clamp(1.5rem, 1rem + 2vw, 2.5rem); display: flex; flex-direction: column; gap: 1.25rem; }
+.cform__row { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+.cform__field { display: flex; flex-direction: column; gap: 0.45rem; }
+.cform label { font-size: 0.88rem; font-weight: 500; color: var(--color-fg-soft); }
+.cform__req { color: var(--color-fg-muted); font-weight: 400; font-size: 0.78rem; }
+.cform input, .cform textarea {
+  width: 100%;
+  min-height: 48px;
+  background: rgba(5, 7, 14, 0.6);
+  border: 1px solid var(--color-line-strong);
+  border-radius: 7px;
+  padding: 0.8rem 1rem;
+  color: var(--color-fg);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.cform textarea { resize: vertical; min-height: 120px; }
+.cform input:focus, .cform textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(10, 145, 210, 0.16);
+}
+.cform input[aria-invalid='true'], .cform textarea[aria-invalid='true'] { border-color: var(--color-danger); }
+.cform__error { color: var(--color-danger); font-size: 0.8rem; min-height: 1rem; margin: 0; }
+.cform__error:empty { display: none; }
+.cform__submit { align-self: flex-start; }
+.cform__submit:disabled { opacity: 0.7; cursor: default; }
+.cform__success {
+  display: flex; align-items: center; gap: 0.5rem;
+  color: var(--color-success); font-size: 0.95rem;
+  padding: 0.85rem 1rem;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  border-radius: 7px;
+  margin: 0;
+}
+@media (min-width: 640px) { .cform__row { grid-template-columns: 1fr 1fr; } }

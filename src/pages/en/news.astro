@@ -1,9 +1,0 @@
----
-import Layout from '../../layouts/Layout.astro';
-import NewsPage from '../../components/pages/NewsPage.astro';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-const t = useTranslations(getLangFromUrl(Astro.url));
----
-<Layout title={`${t('news.title')} — CMC Cyber Security`} description={t('news.sub')}>
-  <NewsPage />
-</Layout>
