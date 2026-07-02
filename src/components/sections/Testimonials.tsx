@@ -1,4 +1,3 @@
-import Icon from '../ui/Icon';
 import SectionHeading from '../ui/SectionHeading';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { useReveal } from '../../hooks/useReveal';
@@ -36,11 +35,6 @@ function TestimonialCard({
         <span className="tst-card__meta">
           <strong>{name}</strong>
           <span>{role} · {company}</span>
-        </span>
-        <span className="tst-card__stars" aria-label="5 / 5">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Icon key={i} name="sparkles" size={14} />
-          ))}
         </span>
       </figcaption>
     </figure>

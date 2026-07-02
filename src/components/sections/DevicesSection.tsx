@@ -26,7 +26,7 @@ export default function DevicesSection() {
   const eyebrowReveal = useReveal();
   const titleReveal = useReveal(80);
   const subReveal = useReveal(140);
-  const { ref: counterRef, display } = useCounter(15, '+');
+  const { ref: counterRef, number: counterNumber, suffix: counterSuffix } = useCounter(15, '+');
 
   return (
     <section className="devices container-x">
@@ -42,7 +42,7 @@ export default function DevicesSection() {
           decoding="async"
         />
         <div className="devices__badge brand-surface">
-          <strong><span ref={counterRef}>{display}</span></strong>
+          <strong><span ref={counterRef}>{counterNumber}</span><span className="counter-suffix">{counterSuffix}</span></strong>
           <span>{t('section.devices.badge')}</span>
         </div>
       </div>

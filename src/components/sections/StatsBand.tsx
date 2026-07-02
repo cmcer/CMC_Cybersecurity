@@ -6,10 +6,12 @@ import './StatsBand.css';
 
 function StatItem({ value, suffix, label, index }: { value: number; suffix: string; label: string; index: number }) {
   const reveal = useReveal(index * 110);
-  const { ref, display } = useCounter(value, suffix);
+  const { ref, number, suffix: suf } = useCounter(value, suffix);
   return (
     <div ref={reveal.ref} className={`statsband__item ${reveal.className}`} style={reveal.style}>
-      <span className="statsband__value text-gradient"><span ref={ref}>{display}</span></span>
+      <span className="statsband__value text-gradient">
+        <span ref={ref}>{number}</span><span className="counter-suffix">{suf}</span>
+      </span>
       <span className="statsband__label">{label}</span>
     </div>
   );

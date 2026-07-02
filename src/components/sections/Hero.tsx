@@ -8,10 +8,10 @@ import { heroStats } from '../../data/content';
 import './Hero.css';
 
 function HeroStat({ value, suffix, label }: { value: number; suffix: string; label: string }) {
-  const { ref, display } = useCounter(value, suffix);
+  const { ref, number, suffix: suf } = useCounter(value, suffix);
   return (
     <div className="hero__stat">
-      <dt className="hero__stat-value"><span ref={ref}>{display}</span></dt>
+      <dt className="hero__stat-value"><span ref={ref}>{number}</span><span className="counter-suffix">{suf}</span></dt>
       <dd className="hero__stat-label">{label}</dd>
     </div>
   );

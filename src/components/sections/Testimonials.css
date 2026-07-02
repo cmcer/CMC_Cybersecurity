@@ -12,6 +12,5 @@
 .tst-card__meta { display: flex; flex-direction: column; line-height: 1.2; }
 .tst-card__meta strong { font-size: 0.95rem; }
 .tst-card__meta span { font-size: 0.82rem; color: var(--color-fg-muted); }
-.tst-card__stars { margin-left: auto; display: inline-flex; gap: 1px; color: var(--color-primary); }
 
 @media (min-width: 860px) { .tst-grid { grid-template-columns: repeat(3, 1fr); } }

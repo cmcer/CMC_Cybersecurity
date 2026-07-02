@@ -181,6 +181,18 @@ img { max-width: 100%; display: block; }
   color: var(--color-primary-bright);
 }
 
+/*
+ * Symbol suffix next to an animated stat number (vd "15+", "7×"). Symbols
+ * như + và × được font vẽ canh giữa x-height thay vì chạm baseline như chữ
+ * số, nên nếu để chung 1 span với số sẽ trông "lệch lên trên". Tách ra
+ * span riêng rồi hạ nhẹ xuống + thu nhỏ để mắt đọc thấy thẳng hàng với số.
+ */
+.counter-suffix {
+  display: inline-block;
+  font-size: 0.62em;
+  vertical-align: 0.1em;
+}
+
 /* ----------------------------- SHARED COMPONENTS ----------------------------- */
 .btn {
   display: inline-flex;
@@ -201,7 +213,7 @@ img { max-width: 100%; display: block; }
 .btn:active { transform: scale(0.97); }
 
 .btn-primary {
-  color: #04243f;
+  color: #ffffff;
   background: var(--grad-brand);
   box-shadow: 0 10px 32px -10px rgba(10, 145, 210, 0.65);
 }
