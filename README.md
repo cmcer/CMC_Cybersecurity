@@ -2,7 +2,9 @@
 
 Website giới thiệu dịch vụ & giải pháp an ninh mạng, thiết kế theo phong cách **dark modern** với **tone xanh da trời thương hiệu CMC** (`#0077D1` / `#0A91D2`), kết hợp ảnh minh hoạ thật và logo chính thức. Build bằng **React 18 + Vite + TypeScript**, chia thành các module rõ ràng để Dev Front dễ tiếp cận, đang chạy online trên **GitHub Pages**.
 
-🌐 **Xem online:** https://megadinhai.github.io/cmc-cybersecurity/
+🌐 **Xem online:** https://cmcer.github.io/CMC_Cybersecurity/ (bản khác: https://megadinhai.github.io/cmc-cybersecurity/)
+
+> Cùng một bản build chạy đúng trên **cả 2 repo trên** (và bất kỳ subpath/domain nào khác) nhờ dùng base path tương đối (`vite.config.ts` → `base: './'`) kết hợp `HashRouter` — không cần đổi cấu hình mỗi lần đổi nơi deploy.
 
 > **Ảnh minh hoạ:** nằm trong `public/images/` (hero, ảnh section, logo khách hàng, chứng nhận) — tải về từ cmccybersecurity.com cho mục đích demo. Thay bằng ảnh có bản quyền của bạn trước khi go-live.
 >
@@ -93,26 +95,26 @@ npx tsc --noEmit # kiểm tra type TypeScript (không bắt buộc nhưng nên c
 
 ## 6. Deploy lên GitHub Pages (đang dùng — tự động)
 
-Repo đã cấu hình sẵn **GitHub Actions** (`.github/workflows/deploy.yml`): mỗi lần push lên nhánh `main`, site tự động build và publish lên GitHub Pages.
+Repo đã cấu hình sẵn **GitHub Actions** (`.github/workflows/deploy.yml`): mỗi lần push lên nhánh `main`, site tự động build và publish lên GitHub Pages. Nhờ base path tương đối (mục 1), workflow này chạy đúng **trên bất kỳ repo GitHub nào** clone/fork từ đây mà không cần sửa `vite.config.ts`.
 
-**Việc cần làm 1 lần duy nhất (trên GitHub, qua trình duyệt):**
+**Việc cần làm 1 lần duy nhất cho mỗi repo mới (trên GitHub, qua trình duyệt):**
 1. Vào repo → **Settings → Pages**.
 2. Mục **Build and deployment → Source**, chọn **GitHub Actions** (nếu chưa được chọn sẵn).
 3. Chờ tab **Actions** chạy xong workflow "Deploy to GitHub Pages" (khoảng 1-2 phút).
-4. Truy cập: **https://megadinhai.github.io/cmc-cybersecurity/**
+4. Truy cập: **https://<tên-tổ-chức-hoặc-user>.github.io/<tên-repo>/**
 
 Từ lần sau, chỉ cần `git push` lên `main` là site tự cập nhật, không cần làm gì thêm.
 
-> Cấu hình base-path cho GitHub Pages nằm ở `vite.config.ts` (`base: '/cmc-cybersecurity/'`). Toàn bộ ảnh trong code đều đi qua hàm `withBase()` (`src/utils/basePath.ts`) nên tự động khớp với base-path này. Route dùng `HashRouter` nên không bị lỗi 404 khi refresh trang con hay truy cập link trực tiếp.
+> Route dùng `HashRouter` (URL dạng `/#/services`) nên không bị lỗi 404 khi refresh trang con hay truy cập link trực tiếp — kể cả khi đổi sang repo/tên khác.
 
-### Đẩy code lên GitHub (nếu cần làm lại từ đầu)
+### Đẩy code lên GitHub (nếu cần làm lại từ đầu, hoặc thêm một repo đích khác)
 
 ```bash
 git init
 git add .
 git commit -m "CMC Cyber Security website (React + Vite, VI/EN)"
 git branch -M main
-git remote add origin https://github.com/megadinhai/cmc-cybersecurity.git
+git remote add origin https://github.com/<owner>/<ten-repo>.git
 git push -u origin main
 ```
 
